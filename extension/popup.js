@@ -1,4 +1,5 @@
 const STORAGE_KEY = "inspiration_items_v1";
+let lastSavedId = null;
 
 function $(id) {
   return document.getElementById(id);
@@ -129,7 +130,7 @@ async function exportAll(format) {
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-function renderRecent(items) {
+function renderRecent(items, opts) {
   const list = $("recentList");
   list.innerHTML = "";
   if (!items.length) {
@@ -143,6 +144,7 @@ function renderRecent(items) {
   for (const it of items.slice(0, 10)) {
     const el = document.createElement("div");
     el.className = "item";
+    if (opts?.highlightId && it.id === opts.highlightId) el.classList.add("item--new");
     el.addEventListener("click", async () => {
       const tab = await getActiveTab();
       if (!it.url) return;
@@ -183,7 +185,7 @@ function renderRecent(items) {
 
 async function refreshRecent() {
   const items = await readAll();
-  renderRecent(items);
+  renderRecent(items, { highlightId: lastSavedId });
 }
 
 async function initPageContext() {
@@ -243,11 +245,15 @@ async function handleSave() {
   items.unshift(item);
   await writeAll(items);
 
-  setToast("已保存。", "good");
+  lastSavedId = item.id;
+  setToast("已保存，已为你定位到最近保存。", "good");
   $("note").value = "";
   $("tags").value = tags.join(", ");
   renderTagChips(tags);
   await refreshRecent();
+
+  const recentSection = $("recentSection");
+  recentSection?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function handleClearInput() {

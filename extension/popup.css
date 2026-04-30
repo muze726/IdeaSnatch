@@ -286,6 +286,23 @@ a.field__value:hover {
   background: rgba(0, 0, 0, 0.22);
 }
 
+.item--new {
+  border-color: rgba(52, 211, 153, 0.35);
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.18), 0 18px 40px rgba(0, 0, 0, 0.35);
+  animation: pop-in 320ms ease-out;
+}
+
+@keyframes pop-in {
+  from {
+    transform: translateY(2px);
+    filter: brightness(1.04);
+  }
+  to {
+    transform: translateY(0);
+    filter: brightness(1);
+  }
+}
+
 .item__title {
   font-size: 13px;
   font-weight: 620;
