@@ -83,7 +83,7 @@ flowchart TD
   P -- 是 --> R{confirm 是否继续保存?}
   R -- 否 --> S[toast: 已取消保存]
   R -- 是 --> Q
-  Q --> T[items.unshift(item)]
+  Q --> T["items.unshift(item)"]
   T --> U[writeAll 写回 storage]
   U --> V[lastSavedId = item.id<br/>toast 成功]
   V --> L
