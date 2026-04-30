@@ -8,6 +8,5 @@
     "default_popup": "popup.html"
   },
   "permissions": ["storage", "activeTab", "scripting", "downloads"],
-  "host_permissions": ["<all_urls>"],
   "minimum_chrome_version": "114"
 }

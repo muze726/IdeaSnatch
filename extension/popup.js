@@ -95,14 +95,6 @@ function renderTagChips(tags) {
   }
 }
 
-function safeFilenamePart(s) {
-  return (s || "")
-    .replace(/[\\/:*?"<>|]+/g, "_")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 40);
-}
-
 async function exportAll(format) {
   const items = await readAll();
   const dt = new Date();
@@ -179,7 +171,7 @@ function renderRecent(items) {
     if (it.selectionText) {
       const pick = document.createElement("span");
       pick.className = "item__pill";
-      pick.textContent = `${Math.min(it.selectionText.length, 18)}字选中`;
+      pick.textContent = `${it.selectionText.length}字选中`;
       meta.appendChild(pick);
     }
 
