@@ -67,6 +67,12 @@ function formatTime(iso) {
   return `${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+function renderRecentTitle(total) {
+  const el = $("recentTitle");
+  if (!el) return;
+  el.textContent = `最近保存（最新 10 条 / 共 ${total} 条）`;
+}
+
 async function getActiveTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   return tab;
@@ -173,6 +179,7 @@ async function exportAll(format) {
 function renderRecent(items, opts) {
   const list = $("recentList");
   list.innerHTML = "";
+  renderRecentTitle(items.length);
   if (!items.length) {
     const empty = document.createElement("div");
     empty.className = "recent__empty";
