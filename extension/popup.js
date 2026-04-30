@@ -1,6 +1,8 @@
 const STORAGE_KEY = "inspiration_items_v1";
 let lastSavedId = null;
 let tagsState = [];
+const UI_CAPTURE_COLLAPSED_KEY = "ui_capture_collapsed_v1";
+let captureCollapsed = true;
 
 function $(id) {
   return document.getElementById(id);
@@ -102,6 +104,15 @@ async function readAll() {
 
 async function writeAll(items) {
   await chrome.storage.local.set({ [STORAGE_KEY]: items });
+}
+
+async function readUiState() {
+  const data = await chrome.storage.local.get([UI_CAPTURE_COLLAPSED_KEY]);
+  captureCollapsed = data[UI_CAPTURE_COLLAPSED_KEY] !== false; // default collapsed
+}
+
+async function writeUiState() {
+  await chrome.storage.local.set({ [UI_CAPTURE_COLLAPSED_KEY]: captureCollapsed });
 }
 
 async function deleteById(id) {
@@ -342,13 +353,36 @@ async function initPageContext() {
     $("url").textContent = ctx.url || tab.url || "";
     $("url").href = ctx.url || tab.url || "#";
     $("selection").textContent = ctx.selectionText || "";
+    renderCaptureSummary();
   } catch (e) {
     $("title").textContent = tab.title || "";
     $("url").textContent = tab.url || "";
     $("url").href = tab.url || "#";
     $("selection").textContent = "";
     setToast("这个页面不支持读取选中文本（比如浏览器内置页）。", "bad");
+    renderCaptureSummary();
   }
+}
+
+function renderCaptureSummary() {
+  const el = $("captureSummary");
+  if (!el) return;
+  const title = $("title")?.textContent?.trim() || "";
+  const url = $("url")?.textContent?.trim() || "";
+  const sel = $("selection")?.textContent?.trim() || "";
+  const parts = [];
+  if (title) parts.push(title);
+  if (sel) parts.push(`${Math.min(sel.length, 18)}字选中`);
+  if (!parts.length && url) parts.push(url.replace(/^https?:\/\//, ""));
+  el.textContent = parts.join(" · ");
+}
+
+function applyCaptureCollapsed() {
+  const details = $("captureDetails");
+  const toggle = $("captureToggle");
+  if (!details || !toggle) return;
+  details.hidden = captureCollapsed;
+  toggle.setAttribute("aria-expanded", captureCollapsed ? "false" : "true");
 }
 
 async function handleSave() {
@@ -445,6 +479,12 @@ function wireEvents() {
     tagInput.value = "";
   });
 
+  on("captureToggle", "click", async () => {
+    captureCollapsed = !captureCollapsed;
+    applyCaptureCollapsed();
+    await writeUiState();
+  });
+
   on("exportJsonBtn", "click", async () => {
     try {
       await exportAll("json");
@@ -483,6 +523,8 @@ function wireEvents() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   wireEvents();
+  await readUiState();
+  applyCaptureCollapsed();
   await initPageContext();
   setTags([]);
   await refreshRecent();

@@ -11,7 +11,6 @@
       <header class="header">
         <div class="brand">
           <div class="brand__name">灵感捕手</div>
-          <div class="brand__hint">捕捉标题 / 链接 / 选中</div>
         </div>
 
         <div class="header__actions">
@@ -24,17 +23,27 @@
 
       <main class="main">
         <section class="card card--capture">
-          <div class="field">
-            <div class="field__label">标题</div>
-            <div id="title" class="field__value field__value--mono"></div>
-          </div>
-          <div class="field">
-            <div class="field__label">链接</div>
-            <a id="url" class="field__value field__value--mono" href="#" target="_blank" rel="noreferrer"></a>
-          </div>
-          <div class="field">
-            <div class="field__label">选中文本</div>
-            <div id="selection" class="selection"></div>
+          <button id="captureToggle" class="capture-toggle" type="button" aria-expanded="false">
+            <div class="capture-toggle__left">
+              <div class="capture-toggle__title">捕捉信息</div>
+              <div id="captureSummary" class="capture-toggle__summary"></div>
+            </div>
+            <div id="captureChevron" class="capture-toggle__chevron" aria-hidden="true">▾</div>
+          </button>
+
+          <div id="captureDetails" class="capture-details" hidden>
+            <div class="field">
+              <div class="field__label">标题</div>
+              <div id="title" class="field__value field__value--mono"></div>
+            </div>
+            <div class="field">
+              <div class="field__label">链接</div>
+              <a id="url" class="field__value field__value--mono" href="#" target="_blank" rel="noreferrer"></a>
+            </div>
+            <div class="field">
+              <div class="field__label">选中文本</div>
+              <div id="selection" class="selection"></div>
+            </div>
           </div>
 
           <div class="editor">
