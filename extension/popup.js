@@ -1,5 +1,6 @@
 const STORAGE_KEY = "inspiration_items_v1";
 let lastSavedId = null;
+let tagsState = [];
 
 function $(id) {
   return document.getElementById(id);
@@ -13,12 +14,41 @@ function miniId() {
   return `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function toTags(raw) {
-  return raw
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .slice(0, 12);
+function normalizeTag(s) {
+  return (s || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 24);
+}
+
+function parseTagsFromText(raw) {
+  return (raw || "")
+    .split(/[,，\n\r]+/g)
+    .map(normalizeTag)
+    .filter(Boolean);
+}
+
+function uniqTags(list) {
+  const out = [];
+  const seen = new Set();
+  for (const t of list) {
+    if (seen.has(t)) continue;
+    seen.add(t);
+    out.push(t);
+    if (out.length >= 12) break;
+  }
+  return out;
+}
+
+function setTags(next) {
+  tagsState = uniqTags(next);
+  renderTagChips(tagsState);
+}
+
+function addTagsFromText(raw) {
+  const parts = parseTagsFromText(raw);
+  if (!parts.length) return;
+  setTags([...tagsState, ...parts]);
 }
 
 function formatTime(iso) {
@@ -88,14 +118,7 @@ function renderTagChips(tags) {
     x.className = "chip__x";
     x.textContent = "×";
     x.addEventListener("click", () => {
-      const next = toTags(
-        $("tags")
-          .value.split(",")
-          .filter((s) => s.trim() !== t)
-          .join(",")
-      );
-      $("tags").value = next.join(", ");
-      renderTagChips(next);
+      setTags(tagsState.filter((x) => x !== t));
     });
 
     chip.appendChild(x);
@@ -255,7 +278,7 @@ async function handleSave() {
   const url = $("url").textContent?.trim() || "";
   const selectionText = $("selection").textContent || "";
   const note = $("note").value.trim();
-  const tags = toTags($("tags").value);
+  const tags = tagsState;
 
   if (!title && !url && !selectionText && !note) {
     setToast("当前没有可保存的内容。先在网页上选一段文字试试。", "bad");
@@ -292,7 +315,7 @@ async function handleSave() {
   lastSavedId = item.id;
   setToast("已保存，已为你定位到最近保存。", "good");
   $("note").value = "";
-  $("tags").value = tags.join(", ");
+  $("tagInput").value = "";
   renderTagChips(tags);
   await refreshRecent();
 
@@ -302,15 +325,36 @@ async function handleSave() {
 
 function handleClearInput() {
   $("note").value = "";
-  $("tags").value = "";
-  renderTagChips([]);
+  $("tagInput").value = "";
+  setTags([]);
   setToast("已清空输入。", "good");
 }
 
 function wireEvents() {
   $("saveBtn").addEventListener("click", handleSave);
   $("clearBtn").addEventListener("click", handleClearInput);
-  $("tags").addEventListener("input", (e) => renderTagChips(toTags(e.target.value)));
+
+  const tagInput = $("tagInput");
+  tagInput.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    addTagsFromText(tagInput.value);
+    tagInput.value = "";
+  });
+
+  tagInput.addEventListener("input", () => {
+    const v = tagInput.value;
+    if (!/[,，\n\r]/.test(v)) return;
+    const parts = v.split(/[,，\n\r]+/g);
+    const rest = parts.pop() || "";
+    addTagsFromText(parts.join(","));
+    tagInput.value = rest;
+  });
+
+  tagInput.addEventListener("blur", () => {
+    addTagsFromText(tagInput.value);
+    tagInput.value = "";
+  });
 
   $("exportJsonBtn").addEventListener("click", async () => {
     try {
@@ -333,7 +377,7 @@ function wireEvents() {
 document.addEventListener("DOMContentLoaded", async () => {
   wireEvents();
   await initPageContext();
-  renderTagChips(toTags($("tags").value));
+  setTags([]);
   await refreshRecent();
 });
 
