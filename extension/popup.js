@@ -151,8 +151,23 @@ async function exportAll(format) {
   )}_${`${dt.getHours()}`.padStart(2, "0")}${`${dt.getMinutes()}`.padStart(2, "0")}`;
 
   let content = "";
+  let bytes = null;
   let mime = "application/json";
   let ext = "json";
+
+  const toExcelTsvUtf16leBytes = (rows) => {
+    // Excel on both Windows and macOS reliably detects UTF-16LE with BOM.
+    const s = rows.join("\r\n") + "\r\n";
+    const out = new Uint8Array(2 + s.length * 2);
+    out[0] = 0xff;
+    out[1] = 0xfe; // UTF-16LE BOM
+    for (let i = 0; i < s.length; i++) {
+      const code = s.charCodeAt(i);
+      out[2 + i * 2] = code & 0xff;
+      out[2 + i * 2 + 1] = (code >> 8) & 0xff;
+    }
+    return out;
+  };
 
   if (format === "csv") {
     ext = "csv";
@@ -179,6 +194,29 @@ async function exportAll(format) {
     }
     // Excel often mis-detects UTF-8 CSV without BOM; add BOM + CRLF for better compatibility.
     content = `\uFEFF${lines.join("\r\n")}\r\n`;
+  } else if (format === "excel") {
+    // TSV (tab-separated) + UTF-16LE BOM is the most Excel-friendly option across Windows/macOS.
+    ext = "tsv";
+    mime = "text/tab-separated-values;charset=utf-16le";
+    const headers = ["createdAt", "title", "url", "selectionText", "note", "tags"];
+    const escapeTsv = (v) => {
+      const s = v == null ? "" : String(v);
+      return s.replace(/\t/g, " ").replace(/\r?\n/g, "\\n");
+    };
+    const lines = [];
+    lines.push(headers.join("\t"));
+    for (const it of items) {
+      const row = [
+        it.createdAt,
+        it.title,
+        it.url,
+        it.selectionText,
+        it.note,
+        Array.isArray(it.tags) ? it.tags.join(" | ") : "",
+      ].map(escapeTsv);
+      lines.push(row.join("\t"));
+    }
+    bytes = toExcelTsvUtf16leBytes(lines);
   } else if (format === "jsonl") {
     ext = "jsonl";
     mime = "application/x-ndjson";
@@ -187,7 +225,7 @@ async function exportAll(format) {
     content = JSON.stringify(items, null, 2) + "\n";
   }
 
-  const blob = new Blob([content], { type: mime });
+  const blob = new Blob([bytes ?? content], { type: mime });
   const url = URL.createObjectURL(blob);
   const filename = `灵感捕手_${stamp}.${ext}`;
 
@@ -428,6 +466,15 @@ function wireEvents() {
     try {
       await exportAll("csv");
       setToast("已生成导出文件。", "good");
+    } catch (e) {
+      setToast("导出失败：请重试。", "bad");
+    }
+  });
+
+  on("exportExcelBtn", "click", async () => {
+    try {
+      await exportAll("excel");
+      setToast("已生成导出文件（Excel 兼容）。", "good");
     } catch (e) {
       setToast("导出失败：请重试。", "bad");
     }
