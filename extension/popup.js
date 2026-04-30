@@ -6,6 +6,16 @@ function $(id) {
   return document.getElementById(id);
 }
 
+function on(id, eventName, handler) {
+  const el = $(id);
+  if (!el) {
+    console.warn(`[IdeaSnatch] missing element: #${id}`);
+    return null;
+  }
+  el.addEventListener(eventName, handler);
+  return el;
+}
+
 function nowIso() {
   return new Date().toISOString();
 }
@@ -331,10 +341,19 @@ function handleClearInput() {
 }
 
 function wireEvents() {
-  $("saveBtn").addEventListener("click", handleSave);
-  $("clearBtn").addEventListener("click", handleClearInput);
+  const saveBtn = on("saveBtn", "click", handleSave);
+  const clearBtn = on("clearBtn", "click", handleClearInput);
+  if (!saveBtn || !clearBtn) {
+    setToast("界面文件似乎没有更新完整：请到扩展页面点“刷新”再试。", "bad");
+    return;
+  }
 
   const tagInput = $("tagInput");
+  if (!tagInput) {
+    setToast("标签输入框缺失：请到扩展页面点“刷新”再试。", "bad");
+    return;
+  }
+
   tagInput.addEventListener("keydown", (e) => {
     if (e.key !== "Enter") return;
     e.preventDefault();
@@ -356,7 +375,7 @@ function wireEvents() {
     tagInput.value = "";
   });
 
-  $("exportJsonBtn").addEventListener("click", async () => {
+  on("exportJsonBtn", "click", async () => {
     try {
       await exportAll("json");
       setToast("已生成导出文件。", "good");
@@ -364,7 +383,7 @@ function wireEvents() {
       setToast("导出失败：请重试。", "bad");
     }
   });
-  $("exportJsonlBtn").addEventListener("click", async () => {
+  on("exportJsonlBtn", "click", async () => {
     try {
       await exportAll("jsonl");
       setToast("已生成导出文件。", "good");
