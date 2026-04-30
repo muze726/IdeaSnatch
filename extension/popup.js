@@ -154,7 +154,31 @@ async function exportAll(format) {
   let mime = "application/json";
   let ext = "json";
 
-  if (format === "jsonl") {
+  if (format === "csv") {
+    ext = "csv";
+    mime = "text/csv;charset=utf-8";
+    const headers = ["createdAt", "title", "url", "selectionText", "note", "tags"];
+    const escapeCsv = (v) => {
+      const s = v == null ? "" : String(v);
+      const needs = /[",\n\r]/.test(s);
+      const safe = s.replace(/"/g, '""');
+      return needs ? `"${safe}"` : safe;
+    };
+    const lines = [];
+    lines.push(headers.join(","));
+    for (const it of items) {
+      const row = [
+        it.createdAt,
+        it.title,
+        it.url,
+        it.selectionText,
+        it.note,
+        Array.isArray(it.tags) ? it.tags.join(" | ") : "",
+      ].map(escapeCsv);
+      lines.push(row.join(","));
+    }
+    content = lines.join("\n") + "\n";
+  } else if (format === "jsonl") {
     ext = "jsonl";
     mime = "application/x-ndjson";
     content = items.map((x) => JSON.stringify(x)).join("\n") + "\n";
@@ -393,6 +417,15 @@ function wireEvents() {
   on("exportJsonlBtn", "click", async () => {
     try {
       await exportAll("jsonl");
+      setToast("已生成导出文件。", "good");
+    } catch (e) {
+      setToast("导出失败：请重试。", "bad");
+    }
+  });
+
+  on("exportCsvBtn", "click", async () => {
+    try {
+      await exportAll("csv");
       setToast("已生成导出文件。", "good");
     } catch (e) {
       setToast("导出失败：请重试。", "bad");
