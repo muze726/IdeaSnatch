@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1F6FEB"/>
+      <stop offset="1" stop-color="#12B981"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="32" y="32" width="448" height="448" rx="120" fill="url(#bg)"/>
+
+  <!-- Capture corners -->
+  <g stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" opacity="0.98">
+    <!-- TL -->
+    <path d="M152 224V152H224"/>
+    <!-- TR -->
+    <path d="M288 152H360V224"/>
+    <!-- BR -->
+    <path d="M360 288V360H288"/>
+    <!-- BL -->
+    <path d="M224 360H152V288"/>
+  </g>
+
+  <!-- Bulb -->
+  <g stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="252" r="86" fill="rgba(255,255,255,0.16)"/>
+    <path d="M214 338H298"/>
+  </g>
+
+  <!-- Spark -->
+  <g stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="362" cy="170" r="10" fill="#FFFFFF" stroke="none"/>
+    <path d="M380 188L420 148"/>
+  </g>
+</svg>

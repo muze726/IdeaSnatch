@@ -95,7 +95,15 @@ function drawIdeaSnatchIcon(size) {
   return ctx.getImageData(0, 0, size, size);
 }
 
-function setActionIcon() {
+async function setActionIconFallback() {
+  // If static PNG icons exist (manifest default_icon), prefer them and do nothing.
+  try {
+    const res = await fetch(chrome.runtime.getURL("icons/icon16.png"), { cache: "no-store" });
+    if (res.ok) return;
+  } catch {
+    // continue to fallback
+  }
+
   const icon16 = drawIdeaSnatchIcon(16);
   const icon24 = drawIdeaSnatchIcon(24);
   const icon32 = drawIdeaSnatchIcon(32);
@@ -110,9 +118,9 @@ function setActionIcon() {
   });
 }
 
-chrome.runtime.onInstalled.addListener(() => setActionIcon());
-chrome.runtime.onStartup?.addListener?.(() => setActionIcon());
+chrome.runtime.onInstalled.addListener(() => void setActionIconFallback());
+chrome.runtime.onStartup?.addListener?.(() => void setActionIconFallback());
 
 // In case service worker wakes up for other reasons
-setActionIcon();
+void setActionIconFallback();
 
