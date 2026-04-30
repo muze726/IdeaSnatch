@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "IdeaSnatch"
+  },
+  "extShortName": {
+    "message": "IdeaSnatch"
+  },
+  "extDescription": {
+    "message": "Save page title, URL, selected text, notes and tags in one click, then export for AI analysis."
+  },
+  "actionTitle": {
+    "message": "IdeaSnatch"
+  }
+}

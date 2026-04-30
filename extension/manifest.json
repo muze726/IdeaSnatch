@@ -1,11 +1,16 @@
 {
   "manifest_version": 3,
-  "name": "灵感捕手",
+  "default_locale": "zh_CN",
+  "name": "__MSG_extName__",
+  "short_name": "__MSG_extShortName__",
   "version": "0.1.0",
-  "description": "一键保存当前页面的标题、链接、选中文本、备注与标签，并可导出。",
+  "description": "__MSG_extDescription__",
   "action": {
-    "default_title": "灵感捕手",
+    "default_title": "__MSG_actionTitle__",
     "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "permissions": ["storage", "activeTab", "scripting", "downloads"],
   "minimum_chrome_version": "114"
