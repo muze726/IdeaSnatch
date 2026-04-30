@@ -378,11 +378,9 @@ function renderCaptureSummary() {
 }
 
 function applyCaptureCollapsed() {
-  const details = $("captureDetails");
-  const toggle = $("captureToggle");
-  if (!details || !toggle) return;
-  details.hidden = captureCollapsed;
-  toggle.setAttribute("aria-expanded", captureCollapsed ? "false" : "true");
+  const wrap = $("captureDetailsWrap");
+  if (!wrap) return;
+  wrap.open = !captureCollapsed;
 }
 
 async function handleSave() {
@@ -479,11 +477,13 @@ function wireEvents() {
     tagInput.value = "";
   });
 
-  on("captureToggle", "click", async () => {
-    captureCollapsed = !captureCollapsed;
-    applyCaptureCollapsed();
-    await writeUiState();
-  });
+  const wrap = $("captureDetailsWrap");
+  if (wrap) {
+    wrap.addEventListener("toggle", async () => {
+      captureCollapsed = !wrap.open;
+      await writeUiState();
+    });
+  }
 
   on("exportJsonBtn", "click", async () => {
     try {

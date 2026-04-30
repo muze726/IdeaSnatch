@@ -23,28 +23,30 @@
 
       <main class="main">
         <section class="card card--capture">
-          <button id="captureToggle" class="capture-toggle" type="button" aria-expanded="false">
-            <div class="capture-toggle__left">
-              <div class="capture-toggle__title">捕捉信息</div>
-              <div id="captureSummary" class="capture-toggle__summary"></div>
-            </div>
-            <div id="captureChevron" class="capture-toggle__chevron" aria-hidden="true">▾</div>
-          </button>
+          <details id="captureDetailsWrap" class="capture" open>
+            <summary class="capture__summary">
+              <div class="capture__left">
+                <div class="capture__title">捕捉信息</div>
+                <div id="captureSummary" class="capture__meta"></div>
+              </div>
+              <div class="capture__chevron" aria-hidden="true">▾</div>
+            </summary>
 
-          <div id="captureDetails" class="capture-details" hidden>
-            <div class="field">
-              <div class="field__label">标题</div>
-              <div id="title" class="field__value field__value--mono"></div>
+            <div class="capture__body">
+              <div class="field">
+                <div class="field__label">标题</div>
+                <div id="title" class="field__value field__value--mono"></div>
+              </div>
+              <div class="field">
+                <div class="field__label">链接</div>
+                <a id="url" class="field__value field__value--mono" href="#" target="_blank" rel="noreferrer"></a>
+              </div>
+              <div class="field">
+                <div class="field__label">选中文本</div>
+                <div id="selection" class="selection"></div>
+              </div>
             </div>
-            <div class="field">
-              <div class="field__label">链接</div>
-              <a id="url" class="field__value field__value--mono" href="#" target="_blank" rel="noreferrer"></a>
-            </div>
-            <div class="field">
-              <div class="field__label">选中文本</div>
-              <div id="selection" class="selection"></div>
-            </div>
-          </div>
+          </details>
 
           <div class="editor">
             <div class="field">

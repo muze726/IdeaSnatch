@@ -285,40 +285,48 @@ a.field__value:hover {
   padding: 8px 9px;
 }
 
-.capture-toggle {
+.capture {
+  margin: -2px 0 10px;
+}
+
+.capture__summary {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   padding: 10px 10px;
-  margin: -2px 0 10px;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.10);
   background: rgba(0, 0, 0, 0.18);
   color: rgba(255, 255, 255, 0.88);
   cursor: pointer;
   user-select: none;
+  list-style: none;
 }
 
-.capture-toggle:hover {
+.capture__summary::-webkit-details-marker {
+  display: none;
+}
+
+.capture__summary:hover {
   border-color: rgba(52, 211, 153, 0.22);
   background: rgba(0, 0, 0, 0.22);
 }
 
-.capture-toggle__left {
+.capture__left {
   min-width: 0;
   display: grid;
   gap: 2px;
 }
 
-.capture-toggle__title {
+.capture__title {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.82);
   letter-spacing: 0.2px;
 }
 
-.capture-toggle__summary {
+.capture__meta {
   font-family: var(--mono);
   font-size: 11.5px;
   color: rgba(255, 255, 255, 0.60);
@@ -328,18 +336,22 @@ a.field__value:hover {
   max-width: 280px;
 }
 
-.capture-toggle__chevron {
+.capture__chevron {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.70);
   transform: rotate(0deg);
   transition: transform 140ms ease;
 }
 
-.capture-toggle[aria-expanded="true"] .capture-toggle__chevron {
+.capture[open] .capture__chevron {
   transform: rotate(180deg);
 }
 
-.capture-details {
+.capture__body {
+  padding: 10px 0 2px;
+}
+
+.capture__body .field:last-child {
   padding-bottom: 2px;
 }
 
