@@ -177,7 +177,8 @@ async function exportAll(format) {
       ].map(escapeCsv);
       lines.push(row.join(","));
     }
-    content = lines.join("\n") + "\n";
+    // Excel often mis-detects UTF-8 CSV without BOM; add BOM + CRLF for better compatibility.
+    content = `\uFEFF${lines.join("\r\n")}\r\n`;
   } else if (format === "jsonl") {
     ext = "jsonl";
     mime = "application/x-ndjson";
