@@ -1,13 +1,13 @@
 :root {
-  --bg: #08110d;
-  --surface: rgba(255, 255, 255, 0.055);
-  --surface-2: rgba(255, 255, 255, 0.075);
-  --text: rgba(255, 255, 255, 0.92);
-  --muted: rgba(255, 255, 255, 0.62);
-  --faint: rgba(255, 255, 255, 0.46);
-  --border: rgba(255, 255, 255, 0.095);
-  --shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
-  --ring: 0 0 0 3px rgba(34, 197, 94, 0.28);
+  --bg: #ffffff;
+  --surface: rgba(15, 23, 42, 0.03); /* slate */
+  --surface-2: rgba(15, 23, 42, 0.05);
+  --text: rgba(15, 23, 42, 0.92);
+  --muted: rgba(15, 23, 42, 0.62);
+  --faint: rgba(15, 23, 42, 0.46);
+  --border: rgba(15, 23, 42, 0.10);
+  --shadow: 0 16px 42px rgba(2, 6, 23, 0.12);
+  --ring: 0 0 0 3px rgba(34, 197, 94, 0.20);
 
   --accent: #34d399; /* green */
   --accent-2: #22c55e;
@@ -34,8 +34,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(820px 420px at 18% 0%, rgba(34, 197, 94, 0.13), transparent 60%),
-    var(--bg);
+  background: radial-gradient(860px 420px at 16% 0%, rgba(34, 197, 94, 0.10), transparent 62%), var(--bg);
   color: var(--text);
   font-family: var(--sans);
 }
@@ -83,7 +82,7 @@ body {
 }
 
 .card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.060), rgba(255, 255, 255, 0.038));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.86));
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -99,9 +98,9 @@ body {
   content: "";
   position: absolute;
   inset: -2px;
-  background: radial-gradient(680px 240px at 10% 0%, rgba(34, 197, 94, 0.14), transparent 64%);
+  background: radial-gradient(680px 240px at 10% 0%, rgba(34, 197, 94, 0.12), transparent 64%);
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.65;
 }
 
 .card--capture > * {
@@ -144,12 +143,12 @@ body {
 .field__value--mono {
   font-family: var(--mono);
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.84);
+  color: rgba(15, 23, 42, 0.78);
 }
 
 a.field__value {
   text-decoration: none;
-  color: rgba(167, 243, 208, 0.92);
+  color: rgba(5, 150, 105, 0.95);
 }
 
 a.field__value:hover {
@@ -161,9 +160,9 @@ a.field__value:hover {
   overflow: auto;
   padding: 10px;
   border-radius: var(--radius-sm);
-  background: rgba(0, 0, 0, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  color: rgba(255, 255, 255, 0.86);
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  color: rgba(15, 23, 42, 0.86);
   font-size: 12.5px;
   line-height: 1.5;
   white-space: pre-wrap;
@@ -179,8 +178,8 @@ a.field__value:hover {
 .input {
   width: 100%;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.82);
   color: var(--text);
   padding: 10px 10px;
   font-size: 13px;
@@ -213,23 +212,23 @@ a.field__value:hover {
   gap: 6px;
   padding: 6px 8px;
   border-radius: 999px;
-  background: rgba(147, 197, 253, 0.12);
-  border: 1px solid rgba(147, 197, 253, 0.18);
-  color: rgba(255, 255, 255, 0.88);
+  background: rgba(34, 197, 94, 0.10);
+  border: 1px solid rgba(34, 197, 94, 0.18);
+  color: rgba(15, 23, 42, 0.86);
   font-size: 12px;
 }
 
 .chip__x {
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.70);
+  color: rgba(15, 23, 42, 0.55);
   cursor: pointer;
   padding: 0;
   line-height: 1;
 }
 
 .chip__x:hover {
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(15, 23, 42, 0.78);
 }
 
 .row {
@@ -242,9 +241,9 @@ a.field__value:hover {
 
 .btn {
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(15, 23, 42, 0.03);
+  color: rgba(15, 23, 42, 0.86);
   padding: 10px 12px;
   font-size: 13px;
   cursor: pointer;
@@ -253,8 +252,8 @@ a.field__value:hover {
 }
 
 .btn:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.16);
 }
 
 .btn:active {
@@ -262,9 +261,9 @@ a.field__value:hover {
 }
 
 .btn--primary {
-  background: linear-gradient(180deg, rgba(34, 197, 94, 0.98), rgba(16, 185, 129, 0.86));
-  border-color: rgba(34, 197, 94, 0.55);
-  color: rgba(5, 10, 18, 0.95);
+  background: linear-gradient(180deg, rgba(34, 197, 94, 0.98), rgba(16, 185, 129, 0.88));
+  border-color: rgba(34, 197, 94, 0.46);
+  color: rgba(255, 255, 255, 0.96);
   font-weight: 650;
   flex: 1;
 }
@@ -276,12 +275,12 @@ a.field__value:hover {
 .btn--ghost {
   padding: 8px 10px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(15, 23, 42, 0.72);
   white-space: nowrap;
 }
 
 .btn--ghost--subtle {
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(15, 23, 42, 0.56);
   padding: 8px 9px;
 }
 
@@ -297,9 +296,9 @@ a.field__value:hover {
   gap: 10px;
   padding: 10px 10px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.18);
-  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(15, 23, 42, 0.03);
+  color: rgba(15, 23, 42, 0.86);
   cursor: pointer;
   user-select: none;
   list-style: none;
@@ -310,8 +309,8 @@ a.field__value:hover {
 }
 
 .capture__summary:hover {
-  border-color: rgba(52, 211, 153, 0.22);
-  background: rgba(0, 0, 0, 0.22);
+  border-color: rgba(34, 197, 94, 0.22);
+  background: rgba(34, 197, 94, 0.06);
 }
 
 .capture__left {
@@ -322,14 +321,14 @@ a.field__value:hover {
 
 .capture__title {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(15, 23, 42, 0.78);
   letter-spacing: 0.2px;
 }
 
 .capture__meta {
   font-family: var(--mono);
   font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.60);
+  color: rgba(15, 23, 42, 0.56);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -338,7 +337,7 @@ a.field__value:hover {
 
 .capture__chevron {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.70);
+  color: rgba(15, 23, 42, 0.60);
   transform: rotate(0deg);
   transition: transform 140ms ease;
 }
@@ -384,8 +383,8 @@ a.field__value:hover {
 .item {
   padding: 10px 10px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.20);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(255, 255, 255, 0.82);
   cursor: pointer;
   display: grid;
   grid-template-columns: 1fr auto;
@@ -393,13 +392,13 @@ a.field__value:hover {
 }
 
 .item:hover {
-  border-color: rgba(147, 197, 253, 0.25);
-  background: rgba(0, 0, 0, 0.22);
+  border-color: rgba(34, 197, 94, 0.22);
+  background: rgba(34, 197, 94, 0.06);
 }
 
 .item--new {
   border-color: rgba(52, 211, 153, 0.35);
-  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.18), 0 18px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.18), 0 18px 40px rgba(2, 6, 23, 0.10);
   animation: pop-in 320ms ease-out;
 }
 
@@ -417,7 +416,7 @@ a.field__value:hover {
 .item__title {
   font-size: 13px;
   font-weight: 620;
-  color: rgba(255, 255, 255, 0.90);
+  color: rgba(15, 23, 42, 0.90);
   line-height: 1.35;
   margin-bottom: 3px;
 }
@@ -427,7 +426,7 @@ a.field__value:hover {
   flex-wrap: wrap;
   gap: 8px;
   font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.58);
+  color: rgba(15, 23, 42, 0.58);
 }
 
 .item__actions {
@@ -437,9 +436,9 @@ a.field__value:hover {
 }
 
 .icon-btn {
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(15, 23, 42, 0.03);
+  color: rgba(15, 23, 42, 0.62);
   border-radius: 10px;
   width: 28px;
   height: 28px;
@@ -449,9 +448,9 @@ a.field__value:hover {
 }
 
 .icon-btn:hover {
-  background: rgba(255, 255, 255, 0.10);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: rgba(255, 255, 255, 0.90);
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.18);
+  color: rgba(15, 23, 42, 0.82);
 }
 
 .icon-btn--danger:hover {
@@ -462,8 +461,8 @@ a.field__value:hover {
 
 .item__pill {
   font-family: var(--mono);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   padding: 2px 6px;
   border-radius: 999px;
 }
