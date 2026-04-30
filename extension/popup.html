@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>灵感捕手</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="brand">
+          <div class="brand__name">灵感捕手</div>
+          <div class="brand__hint">捕捉当下，别让好灵感溜走</div>
+        </div>
+        <div class="header__actions">
+          <button id="exportJsonlBtn" class="btn btn--ghost" type="button">导出 JSONL</button>
+          <button id="exportJsonBtn" class="btn btn--ghost" type="button">导出 JSON</button>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="card">
+          <div class="field">
+            <div class="field__label">标题</div>
+            <div id="title" class="field__value field__value--mono"></div>
+          </div>
+          <div class="field">
+            <div class="field__label">链接</div>
+            <a id="url" class="field__value field__value--mono" href="#" target="_blank" rel="noreferrer"></a>
+          </div>
+          <div class="field">
+            <div class="field__label">选中文本</div>
+            <div id="selection" class="selection"></div>
+          </div>
+
+          <div class="split">
+            <div class="field">
+              <label class="field__label" for="note">备注</label>
+              <textarea id="note" class="input textarea" rows="3" placeholder="补充你的想法：为什么值得保存？打算怎么用？"></textarea>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="tags">标签</label>
+              <input id="tags" class="input" placeholder="用逗号分隔，如：标题参考, 金句, 选题" />
+              <div class="chips" id="tagChips"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <button id="saveBtn" class="btn btn--primary" type="button">保存灵感</button>
+            <button id="clearBtn" class="btn btn--ghost" type="button" title="清空备注与标签">清空输入</button>
+          </div>
+
+          <div id="toast" class="toast" aria-live="polite"></div>
+        </section>
+
+        <section class="card card--list">
+          <div class="card__title">最近保存</div>
+          <div id="recentList" class="recent"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
