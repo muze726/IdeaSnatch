@@ -58,6 +58,13 @@ async function writeAll(items) {
   await chrome.storage.local.set({ [STORAGE_KEY]: items });
 }
 
+async function deleteById(id) {
+  const items = await readAll();
+  const next = items.filter((x) => x.id !== id);
+  await writeAll(next);
+  return { before: items.length, after: next.length };
+}
+
 function setToast(message, type) {
   const toast = $("toast");
   toast.textContent = message || "";
@@ -151,6 +158,8 @@ function renderRecent(items, opts) {
       await chrome.tabs.create({ url: it.url, index: (tab?.index ?? 0) + 1 });
     });
 
+    const content = document.createElement("div");
+
     const title = document.createElement("div");
     title.className = "item__title";
     title.textContent = it.title || "(无标题)";
@@ -177,8 +186,32 @@ function renderRecent(items, opts) {
       meta.appendChild(pick);
     }
 
-    el.appendChild(title);
-    el.appendChild(meta);
+    content.appendChild(title);
+    content.appendChild(meta);
+
+    const actions = document.createElement("div");
+    actions.className = "item__actions";
+
+    const del = document.createElement("button");
+    del.type = "button";
+    del.className = "icon-btn icon-btn--danger";
+    del.title = "删除这条灵感";
+    del.textContent = "×";
+    del.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const ok = confirm("确定删除这条灵感吗？删除后无法恢复。");
+      if (!ok) return;
+      await deleteById(it.id);
+      if (lastSavedId === it.id) lastSavedId = null;
+      setToast("已删除。", "good");
+      await refreshRecent();
+    });
+
+    actions.appendChild(del);
+
+    el.appendChild(content);
+    el.appendChild(actions);
     list.appendChild(el);
   }
 }
