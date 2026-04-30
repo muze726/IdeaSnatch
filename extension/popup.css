@@ -1,21 +1,29 @@
 :root {
-  --bg: #0b0f17;
-  --panel: rgba(255, 255, 255, 0.06);
-  --panel-2: rgba(255, 255, 255, 0.08);
+  --bg: #070b12;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-2: rgba(255, 255, 255, 0.085);
   --text: rgba(255, 255, 255, 0.92);
   --muted: rgba(255, 255, 255, 0.62);
-  --faint: rgba(255, 255, 255, 0.44);
+  --faint: rgba(255, 255, 255, 0.46);
   --border: rgba(255, 255, 255, 0.10);
-  --shadow: 0 20px 55px rgba(0, 0, 0, 0.55);
-  --ring: 0 0 0 3px rgba(96, 165, 250, 0.35);
-  --accent: #93c5fd;
-  --accent-2: #60a5fa;
-  --good: #34d399;
+  --shadow: 0 18px 48px rgba(0, 0, 0, 0.52);
+  --ring: 0 0 0 3px rgba(59, 130, 246, 0.30);
+
+  --accent: #60a5fa;
+  --accent-2: #1f6feb;
+  --good: #22c55e;
   --bad: #fb7185;
-  --radius: 14px;
+
+  --radius: 16px;
+  --radius-sm: 12px;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
-    "Segoe UI Emoji";
+  --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  --display: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 12px;
+  --space-4: 14px;
 }
 
 * {
@@ -50,8 +58,9 @@ body {
 }
 
 .brand__name {
+  font-family: var(--display);
   font-size: 15px;
-  font-weight: 680;
+  font-weight: 760;
   letter-spacing: 0.2px;
 }
 
@@ -59,6 +68,8 @@ body {
   margin-top: 2px;
   font-size: 12px;
   color: var(--muted);
+  max-width: 220px;
+  line-height: 1.3;
 }
 
 .header__actions {
@@ -74,11 +85,31 @@ body {
 }
 
 .card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.045));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.04));
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 12px;
+}
+
+.card--capture {
+  position: relative;
+  overflow: hidden;
+}
+
+.card--capture::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: radial-gradient(700px 260px at 10% 0%, rgba(96, 165, 250, 0.14), transparent 60%),
+    radial-gradient(520px 220px at 90% 10%, rgba(34, 197, 94, 0.10), transparent 65%);
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.card--capture > * {
+  position: relative;
+  z-index: 1;
 }
 
 .card--list {
@@ -90,6 +121,9 @@ body {
   color: var(--muted);
   margin-bottom: 10px;
   letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .field {
@@ -129,26 +163,27 @@ a.field__value:hover {
   max-height: 86px;
   overflow: auto;
   padding: 10px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   color: rgba(255, 255, 255, 0.86);
   font-size: 12.5px;
   line-height: 1.5;
   white-space: pre-wrap;
 }
 
-.split {
+.editor {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
+  padding-top: 2px;
 }
 
 .input {
   width: 100%;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.20);
+  background: rgba(0, 0, 0, 0.22);
   color: var(--text);
   padding: 10px 10px;
   font-size: 13px;
@@ -157,7 +192,7 @@ a.field__value:hover {
 
 .input:focus {
   box-shadow: var(--ring);
-  border-color: rgba(96, 165, 250, 0.55);
+  border-color: rgba(59, 130, 246, 0.55);
 }
 
 .textarea {
@@ -209,14 +244,14 @@ a.field__value:hover {
 }
 
 .btn {
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.88);
   padding: 10px 12px;
   font-size: 13px;
   cursor: pointer;
-  transition: transform 0.05s ease, background 0.12s ease, border-color 0.12s ease;
+  transition: transform 0.05s ease, background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
   user-select: none;
 }
 
@@ -230,8 +265,8 @@ a.field__value:hover {
 }
 
 .btn--primary {
-  background: linear-gradient(180deg, rgba(96, 165, 250, 0.95), rgba(59, 130, 246, 0.85));
-  border-color: rgba(96, 165, 250, 0.65);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.98), rgba(31, 111, 235, 0.88));
+  border-color: rgba(59, 130, 246, 0.62);
   color: rgba(5, 10, 18, 0.95);
   font-weight: 650;
   flex: 1;
@@ -245,6 +280,11 @@ a.field__value:hover {
   padding: 8px 10px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.78);
+}
+
+.btn--ghost--subtle {
+  color: rgba(255, 255, 255, 0.62);
+  padding: 8px 9px;
 }
 
 .toast {
@@ -275,9 +315,9 @@ a.field__value:hover {
 
 .item {
   padding: 10px 10px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.20);
   cursor: pointer;
   display: grid;
   grid-template-columns: 1fr auto;

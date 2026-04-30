@@ -11,26 +11,19 @@
       <header class="header">
         <div class="brand">
           <div class="brand__name">灵感捕手</div>
-          <div class="brand__hint">捕捉当下，别让好灵感溜走</div>
+          <div class="brand__hint">一键捕捉：标题 · 链接 · 选中内容</div>
         </div>
+
         <div class="header__actions">
-          <button id="exportJsonlBtn" class="btn btn--ghost" type="button">导出 JSONL</button>
-          <button id="exportJsonBtn" class="btn btn--ghost" type="button">导出 JSON</button>
           <button id="exportCsvBtn" class="btn btn--ghost" type="button">导出 CSV</button>
-          <button
-            id="exportExcelBtn"
-            class="btn btn--ghost"
-            type="button"
-            title="更适合用 Excel 打开"
-            hidden
-          >
-            导出 Excel
-          </button>
+          <button id="exportJsonBtn" class="btn btn--ghost" type="button">导出 JSON</button>
+          <button id="exportJsonlBtn" class="btn btn--ghost btn--ghost--subtle" type="button">JSONL</button>
+          <button id="exportExcelBtn" class="btn btn--ghost" type="button" hidden>导出 Excel</button>
         </div>
       </header>
 
       <main class="main">
-        <section class="card">
+        <section class="card card--capture">
           <div class="field">
             <div class="field__label">标题</div>
             <div id="title" class="field__value field__value--mono"></div>
@@ -44,15 +37,20 @@
             <div id="selection" class="selection"></div>
           </div>
 
-          <div class="split">
+          <div class="editor">
             <div class="field">
               <label class="field__label" for="note">备注</label>
-              <textarea id="note" class="input textarea" rows="3" placeholder="补充你的想法：为什么值得保存？打算怎么用？"></textarea>
+              <textarea
+                id="note"
+                class="input textarea"
+                rows="3"
+                placeholder="补充你的判断：为什么值得存？打算怎么用？"
+              ></textarea>
             </div>
 
             <div class="field">
-              <label class="field__label" for="tagInput">标签</label>
-              <input id="tagInput" class="input" placeholder="输入一个标签后按回车，可多次输入（也支持逗号分隔）" />
+              <label class="field__label" for="tagInput">标签（回车添加）</label>
+              <input id="tagInput" class="input" placeholder="例如：标题参考 ↵  金句 ↵  选题" />
               <div class="chips" id="tagChips"></div>
             </div>
           </div>
