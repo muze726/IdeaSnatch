@@ -262,6 +262,18 @@ async function handleSave() {
     return;
   }
 
+  const items = await readAll();
+  if (url) {
+    const dupCount = items.filter((x) => x.url === url).length;
+    if (dupCount > 0) {
+      const ok = confirm(`这条链接你已经保存过 ${dupCount} 次了。\n\n要继续保存一条新的灵感吗？`);
+      if (!ok) {
+        setToast("已取消保存。", "good");
+        return;
+      }
+    }
+  }
+
   const item = {
     id: miniId(),
     createdAt: nowIso(),
@@ -274,7 +286,6 @@ async function handleSave() {
     version: 1,
   };
 
-  const items = await readAll();
   items.unshift(item);
   await writeAll(items);
 
